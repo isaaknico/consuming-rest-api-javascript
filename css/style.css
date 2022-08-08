@@ -11,6 +11,12 @@ html {
 
 .section {
     padding: 0 2rem;
+    margin: 0 auto;
+    margin-bottom: 3rem;
+}
+
+.section--lg {
+    max-width: 800px;
 }
 
 .title {
@@ -25,7 +31,10 @@ html {
 
 .section__grid {
     display: grid;
-    justify-content: space-around;
+    justify-items: center;
+    grid-template-columns: repeat(2, minmax(135px, 1fr));
+    grid-auto-rows: 1fr 1fr;
+    gap: 1rem;
 }
 
 .img-container {
@@ -45,7 +54,6 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 1rem;
     width: 100%;
     max-width: 15rem;
     height: 15rem;
