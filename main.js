@@ -1,5 +1,5 @@
 console.log('Hello worlds');
-const API_URL = 'https://nekos.best/api/v2/neko';
+const API_URL = 'https://api.thedogapi.com/v1/images/search';
 
 /* Usando fetch y .then
 function fetchData() {
@@ -20,7 +20,7 @@ async function getRandom() {
         const response = await fetch(API_URL);
         const data = await response.json();
         const img = document.getElementById('main-img');
-        img.src = data.results[0].url;
+        img.src = data[0].url;
         
     } catch (error) {
         console.log(error)
@@ -30,7 +30,7 @@ async function getRandom() {
 // Related images
 async function getRelated() {
     try {
-        const resRelated = await fetch(`${API_URL}?amount=4`);
+        const resRelated = await fetch(`${API_URL}?limit=4`);
         const dataRelated = await resRelated.json();
 
         console.log(dataRelated);
@@ -39,10 +39,10 @@ async function getRelated() {
         const imgRelated3 = document.getElementById('related-img-3');
         const imgRelated4 = document.getElementById('related-img-4');
 
-        imgRelated1.src = dataRelated.results[0].url;
-        imgRelated2.src = dataRelated.results[1].url;
-        imgRelated3.src = dataRelated.results[2].url;
-        imgRelated4.src = dataRelated.results[3].url;
+        imgRelated1.src = dataRelated[0].url;
+        imgRelated2.src = dataRelated[1].url;
+        imgRelated3.src = dataRelated[2].url;
+        imgRelated4.src = dataRelated[3].url;
     } catch (error) {
         console.log(error)
     }
