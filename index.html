@@ -10,34 +10,46 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
     <header>
         <h1 class="title">Random doge 🐶</h1>
     </header>
+
     <section class="section">
         <div class="img-container">
+            <button class="img__btn"><span class="material-symbols-outlined">grade</span></button>
             <img id="main-img" class="img" alt="Imagen de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
         </div>
 
-        <button class="btn">New doge</button>
+        <button id="btn-random" class="btn">New doge</button>
     </section>
 
     <section class="section section--lg">
-        <h1 class="section__title">Related doges</h1>
+        <h2 class="section__title">Favorites doges</h2>
+        
+        <article class="related-img-container">
+            <button class="img__btn--delete"><span class="material-symbols-outlined">delete</span></button>
+            <img id="favorite-img-1" class="img" alt="Imagen favorita de perro"> <!-- Omitimos src (se agregará con JS)-->
+        </article>
+    </section>
+
+    <section class="section section--lg">
+        <h2 class="section__title">Related doges</h2>
         <div class="section__grid">
-            <div class="related-img-container">
+            <article class="related-img-container">
                 <img id="related-img-1" class="img" alt="Imagen relacionada de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
-            </div>
-            <div class="related-img-container">
+            </article>
+            <article class="related-img-container">
                 <img id="related-img-2" class="img" alt="Imagen relacionada de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
-            </div>
-            <div class="related-img-container">
+            </article>
+            <article class="related-img-container">
                 <img id="related-img-3" class="img" alt="Imagen relacionada de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
-            </div>
-            <div class="related-img-container">
+            </article>
+            <article class="related-img-container">
                 <img id="related-img-4" class="img" alt="Imagen relacionada de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
-            </div>
+            </article>
         </div>
     </section>
 

@@ -48,7 +48,7 @@ async function getRelated() {
     }
 }
 
-const btn = document.querySelector('button');
+const btn = document.getElementById('btn-random');
 btn.onclick = getRandom;
 
 getRandom();
