@@ -1,5 +1,7 @@
-console.log('Hello worlds');
 const API_URL = 'https://api.thedogapi.com/v1/images/search';
+const API_URL_FAVS = 'https://api.thedogapi.com/v1/favourites?limit=3';
+
+const spanError = document.getElementById('error');
 
 /* Usando fetch y .then
 function fetchData() {
@@ -19,21 +21,43 @@ async function getRandom() {
     try {
         const response = await fetch(API_URL);
         const data = await response.json();
-        const img = document.getElementById('main-img');
-        img.src = data[0].url;
+
+        if (response.status !== 200) {
+            spanError.innerHTML = `There was an error in Random: ${response.status} ${data.message}`;
+        } else {
+            const img = document.getElementById('main-img');
+            img.src = data[0].url;
+        }
         
     } catch (error) {
-        console.log(error)
+        console.log(error);
+    }
+}
+
+// Favorites images
+async function getFavorites() {
+    try {
+        const response = await fetch(API_URL_FAVS);
+        const data = await response.json();
+        console.log('favorites', response);
+        console.log('favorites', data);
+        if (response.status !== 200) {
+            spanError.innerHTML = `There was an error in Favorites: ${response.status} ${data.message}`;
+        } else {
+
+        }
+
+    } catch (error) {
+        console.log(error);
     }
 }
 
 // Related images
-async function getRelated() {
+async function getRelateds() {
     try {
         const resRelated = await fetch(`${API_URL}?limit=4`);
         const dataRelated = await resRelated.json();
 
-        console.log(dataRelated);
         const imgRelated1 = document.getElementById('related-img-1');
         const imgRelated2 = document.getElementById('related-img-2');
         const imgRelated3 = document.getElementById('related-img-3');
@@ -52,5 +76,6 @@ const btn = document.getElementById('btn-random');
 btn.onclick = getRandom;
 
 getRandom();
-getRelated();
+getFavorites();
+getRelateds();
 

@@ -9,6 +9,18 @@ html {
     font-family: 'Montserrat', sans-serif;
 }
 
+.error {
+    display: flex;
+    width: 100%;
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+    font-size: 1.4rem;
+    color: white;
+    background-color: rgb(225, 82, 82);
+}
+
 .section {
     padding: 0 2rem;
     margin: 0 auto;
