@@ -18,12 +18,14 @@
     </header>
 
     <section class="section">
-        <span id="error" class="error"></span>
+        <span id="error" class=""></span>
     </section>
-    
+
     <section class="section">
         <div class="img-container">
-            <button class="img__btn"><span class="material-symbols-outlined">grade</span></button>
+            <button id="btnSaveToFav" onclick="saveToFavorites()" class="img__btn">
+                <span class="material-symbols-outlined">grade</span>
+            </button>
             <img id="main-img" class="img" alt="Imagen de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
         </div>
 
@@ -34,7 +36,9 @@
         <h2 class="section__title">Favorites doges</h2>
         
         <article class="related-img-container">
-            <button class="img__btn--delete"><span class="material-symbols-outlined">delete</span></button>
+            <button class="img__btn--delete">
+                <span class="material-symbols-outlined">delete</span>
+            </button>
             <img id="favorite-img-1" class="img" alt="Imagen favorita de perro"> <!-- Omitimos src (se agregará con JS)-->
         </article>
     </section>

@@ -1,5 +1,6 @@
 const API_URL = 'https://api.thedogapi.com/v1/images/search';
-const API_URL_FAVS = 'https://api.thedogapi.com/v1/favourites?limit=3';
+const API_URL_FAVS = 'https://api.thedogapi.com/v1/favourites';
+const API_KEY = 'Your-api-key';
 
 const spanError = document.getElementById('error');
 
@@ -21,9 +22,11 @@ async function getRandom() {
     try {
         const response = await fetch(API_URL);
         const data = await response.json();
+        console.log('random data', data);
 
         if (response.status !== 200) {
             spanError.innerHTML = `There was an error in Random: ${response.status} ${data.message}`;
+            spanError.classList.add('error');
         } else {
             const img = document.getElementById('main-img');
             img.src = data[0].url;
@@ -37,12 +40,19 @@ async function getRandom() {
 // Favorites images
 async function getFavorites() {
     try {
-        const response = await fetch(API_URL_FAVS);
+        const response = await fetch(`${API_URL_FAVS}?limit=3`, {
+            headers: {
+                'x-api-key': API_KEY,
+            }, 
+        });
         const data = await response.json();
-        console.log('favorites', response);
-        console.log('favorites', data);
+
+        console.log('favorites response', response);
+        console.log('favorites data', data);
+        
         if (response.status !== 200) {
             spanError.innerHTML = `There was an error in Favorites: ${response.status} ${data.message}`;
+            spanError.classList.add('error');
         } else {
 
         }
@@ -69,6 +79,28 @@ async function getRelateds() {
         imgRelated4.src = dataRelated[3].url;
     } catch (error) {
         console.log(error)
+    }
+}
+
+// Save image to Favorites
+async function saveToFavorites() {
+    const response = await fetch(API_URL_FAVS, { // Se envia un obj como arg
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json', // Indica que estamos trabajando en json
+            'x-api-key': API_KEY,
+        },
+        body: JSON.stringify({ // Contienen la información como tal. // Se convierte a string para que el lenguaje en que está escrito el backend(api) lo pueda leer 
+            image_id: '4hsn54Wod', // Pendiente: Id escrito manual
+        }),
+    });
+    const data = await response.json();
+
+    if (response.status !== 200) {
+        spanError.innerHTML = `There was an error in Save to Favorites: ${response.status} ${data.message}`;
+        spanError.classList.add('error');
+    } else {
+
     }
 }
 
