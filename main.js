@@ -67,15 +67,16 @@ async function getFavorites() {
             spanError.innerHTML = `There was an error in Favorites: ${response.status} ${data.message}`;
             spanError.classList.add('error');
         } else {
-            // Limpia seccion y vuelve a crear titulo
+            // Limpia seccion
             const section = document.getElementById('favorites');
             section.innerHTML = "";
-
+            // y vuelve a crear titulo
+            /*
             const h2 = document.createElement('h2');
             const h2Text = document.createTextNode('Favorites doges');
             h2.appendChild(h2Text);
             h2.classList.add('section__title');
-            section.appendChild(h2);
+            section.appendChild(h2); */
 
             // Recorre cada uno de los elems
             data.forEach(item => {
