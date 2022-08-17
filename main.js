@@ -1,6 +1,7 @@
 const API_URL = 'https://api.thedogapi.com/v1/images/search';
 const API_URL_FAVS = 'https://api.thedogapi.com/v1/favourites';
 const API_URL_FAVS_DELETE = (id) => `https://api.thedogapi.com/v1/favourites/${id}`;   // Pasa endpoint con id
+const API_URL_UPLOAD = 'https://api.thedogapi.com/v1/images/upload';
 const API_KEY = 'Your-api-key';
 
 const spanError = document.getElementById('error');
@@ -170,6 +171,54 @@ async function deleteFromFavorites(id) {
         console.log('Eliminado de favoritos');
         getFavorites();
     }
+}
+
+async function uploadPhoto() {
+    const form = document.getElementById('uploadingForm');
+    const formData = new FormData(form); // Crea instancia FormData y le pasa un form con todos los valores de los input que contenga
+
+    console.log(formData.get('file')); // Obtenemos la llave file, que es el valor del input con name='file' del form.
+
+    const response = await fetch(API_URL_UPLOAD, {
+        method: 'POST',
+        headers: {
+            // 'Content-Type': 'multipart/form-data', // Al definir Content-type manualmente requiere param boundary o marcará error. Se deja a Fetch que defina el content-type con todo y boundary automaticamente. 
+            'x-api-key': API_KEY,
+        },
+        body: formData, // FormData no requiere parsear el body.
+        
+    });
+
+    const data = await response.json();
+
+    if (response.status !== 201) { // Se compara con status created 201
+        spanError.innerHTML = `There was an error in Upload Photo: ${response.status} ${data.message}`;
+        spanError.classList.add('error');
+    } else {
+        console.log('Foto subida correctamente');
+        console.log('data:', data);
+        console.log('data.url:',data.url);
+        saveToFavorites(data.id); // Guarda imagen subida en favoritos
+    }
+}
+
+async function previewImage() {
+    const input = document.getElementById('file');
+    const file = input.files;
+    console.log(file)
+
+    if (file.length > 0) {
+        const fileReader = new FileReader();
+
+        fileReader.onload = function(e) {
+            document.getElementById('preview-container').classList.add('related-img-container');
+            document.getElementById('preview-container').classList.add('preview-container');
+            document.getElementById('preview').setAttribute('src', e.target.result);
+            document.getElementById('preview').classList.add('img');
+        }
+        fileReader.readAsDataURL(file[0]);
+    }
+
 }
 
 const btn = document.getElementById('btn-random');

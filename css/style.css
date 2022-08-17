@@ -140,3 +140,55 @@ html {
     background-color: rgb(28, 167, 120);
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
 }
+
+.btn--lit {
+    width: 70%;
+    height: 3rem;
+    margin-top: 1.5rem;
+    color: black;
+    font-size: 1.5rem;
+    border: .2rem solid rgba(0, 219, 161, 0.971);
+    background-color: transparent;
+}
+
+.btn--lit:hover {
+    color: white;
+}
+
+.container-inputUpload {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 20rem;
+    padding: 1rem;
+    border: .2rem dashed rgb(207, 207, 207);
+    border-radius: 2rem;
+}
+
+.inputUpload {
+    width: 100%;
+    height: 20rem;
+}
+
+.preview-container {
+    
+    position: absolute;
+    top:37px;
+}
+
+/*
+input[type="file" i] {
+    appearance: none;
+    background-color: initial;
+    cursor: default;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+    text-overflow: ellipsis;
+    white-space: pre;
+    
+    overflow: hidden !important;
+}*/

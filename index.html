@@ -32,6 +32,22 @@
         <button id="btn-random" class="btn">New doge</button>
     </section>
 
+    <section id="uploading" class="section section--lg">
+        <h2 class="section__title">Upload a picture of your dog</h2>
+
+        <form id="uploadingForm">
+            <div class="container-inputUpload">
+                <input class="inputUpload" id="file" type="file" name="file" onchange="previewImage()">
+                <div id="preview-container" class="">
+                    <img id="preview" class="">
+                </div>
+            </div>
+            
+            <button type="button" onclick="uploadPhoto()" class="btn btn--lit">Upload photo</button>
+            <!-- Se elige type="button" para que el form no se envie automaticamente y podamos controlarlo por js -->
+        </form>
+    </section>
+
     <section class="section section--lg">
         <h2 class="section__title">Favorites doges</h2>
         <div id="favorites" class="section__grid">
