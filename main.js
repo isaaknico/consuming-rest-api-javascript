@@ -204,7 +204,6 @@ async function uploadPhoto() {
 
 async function previewImage() {
     const input = document.getElementById('input-file');
-    const btnTrigger = document.getElementById('input-file-trigger');
     const fileReturn = document.getElementById('file-return');
     const file = input.files; // Lista de files
     console.log('file:', file)
@@ -215,10 +214,12 @@ async function previewImage() {
         fileReader.readAsDataURL(file[0]); // Lee el primer archivo.
 
         fileReader.onload = function() {
-            document.getElementById('preview-container').classList.add('related-img-container');
-            document.getElementById('preview-container').classList.add('preview-container');
-            document.getElementById('preview').setAttribute('src', fileReader.result);
-            document.getElementById('preview').classList.add('img');
+            const previewContainer = document.getElementById('preview-container');
+            previewContainer.classList.add('related-img-container');
+            previewContainer.classList.add('preview-container');
+            const previewImage = document.getElementById('preview')
+            previewImage.src = fileReader.result;
+            previewImage.classList.add('img');
             fileReturn.innerHTML = file[0].name;
         }
     }

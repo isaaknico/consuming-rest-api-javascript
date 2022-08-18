@@ -1,3 +1,7 @@
 .section__grid {
     grid-template-columns: repeat(4, 1fr);
 }
+
+.input-file {
+    height: 100%;
+}
