@@ -203,22 +203,25 @@ async function uploadPhoto() {
 }
 
 async function previewImage() {
-    const input = document.getElementById('file');
-    const file = input.files;
-    console.log(file)
+    const input = document.getElementById('input-file');
+    const btnTrigger = document.getElementById('input-file-trigger');
+    const fileReturn = document.getElementById('file-return');
+    const file = input.files; // Lista de files
+    console.log('file:', file)
 
     if (file.length > 0) {
         const fileReader = new FileReader();
 
-        fileReader.onload = function(e) {
+        fileReader.readAsDataURL(file[0]); // Lee el primer archivo.
+
+        fileReader.onload = function() {
             document.getElementById('preview-container').classList.add('related-img-container');
             document.getElementById('preview-container').classList.add('preview-container');
-            document.getElementById('preview').setAttribute('src', e.target.result);
+            document.getElementById('preview').setAttribute('src', fileReader.result);
             document.getElementById('preview').classList.add('img');
+            fileReturn.innerHTML = file[0].name;
         }
-        fileReader.readAsDataURL(file[0]);
     }
-
 }
 
 const btn = document.getElementById('btn-random');
