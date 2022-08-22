@@ -3,8 +3,13 @@ const API_URL_FAVS = 'https://api.thedogapi.com/v1/favourites';
 const API_URL_FAVS_DELETE = (id) => `https://api.thedogapi.com/v1/favourites/${id}`;   // Pasa endpoint con id
 const API_URL_UPLOAD = 'https://api.thedogapi.com/v1/images/upload';
 const API_KEY = 'Your-api-key';
-
 const spanError = document.getElementById('error');
+
+// Crea instancia de axios y Agrega headers por defecto
+const api = axios.create({
+    baseURL: 'https://api.thedogapi.com/v1',
+    headers: { 'x-api-key': API_KEY } // Agrega la api-key a cada petición.
+});
 
 /* Usando fetch y .then
 function fetchData() {
@@ -133,6 +138,7 @@ async function getRelateds() {
 
 // Save image to Favorites
 async function saveToFavorites(id) {
+    /* Usando fetch
     const response = await fetch(API_URL_FAVS, { // Se envia un obj como arg
         method: 'POST',
         headers: {
@@ -143,15 +149,24 @@ async function saveToFavorites(id) {
             image_id: id,
         }),
     });
-    const data = await response.json();
+    const data = await response.json();  */
 
-    if (response.status !== 200) {
-        spanError.innerHTML = `There was an error in Save to Favorites: ${response.status} ${data.message}`;
+    /* Usando Axios */
+    const { data, status } = await api.post('/favourites', {
+        image_id: id,
+    });
+    // { data, status }: Propiedades del típico obj response obtenido al realizar petición, evitan usar: data=await response.json(); y response.status.
+    // Llamamos a instancia que contiene url, indicamos metodo, pasamos endpoint y data.
+    // La api-key se agregó con los headers por default.
+
+    if (status !== 200) {
+        spanError.innerHTML = `There was an error in Save to Favorites: ${ status } ${ data.message }`;
         spanError.classList.add('error');
     } else {
         console.log('Guardado en favoritos');
         getFavorites();
     }
+
 }
 
 // Delete image from Favorites
@@ -205,22 +220,23 @@ async function uploadPhoto() {
 async function previewImage() {
     const input = document.getElementById('input-file');
     const fileReturn = document.getElementById('file-return');
-    const file = input.files; // Lista de files
-    console.log('file:', file)
+    const files = input.files; // La propiedad files del elemento input nos devuelve un array con una lista de objetos representando los archivos cargados en la etiqueta input. Guardados en el navegador, obtenidos del SO.
+    console.log('file:', files)
 
-    if (file.length > 0) {
-        const fileReader = new FileReader();
+    if (files.length > 0) {
+        const fileReader = new FileReader(); // Crea instancia de FileReader
 
-        fileReader.readAsDataURL(file[0]); // Lee el primer archivo.
+        fileReader.readAsDataURL(files[0]); // Lee el primer archivo. Y convierte archivo de imagen en string base64.
 
         fileReader.onload = function() {
             const previewContainer = document.getElementById('preview-container');
             previewContainer.classList.add('related-img-container');
             previewContainer.classList.add('preview-container');
             const previewImage = document.getElementById('preview')
-            previewImage.src = fileReader.result;
+            previewImage.src = fileReader.result; // Asigna imagen a etiqueta
             previewImage.classList.add('img');
-            fileReturn.innerHTML = file[0].name;
+
+            fileReturn.innerHTML = files[0].name; // Retorna el nombre del archivo
         }
     }
 }
