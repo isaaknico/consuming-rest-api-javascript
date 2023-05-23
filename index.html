@@ -17,69 +17,71 @@
         <h1 class="title">Random doge 🐶</h1>
     </header>
 
-    <section class="section">
-        <span id="error" class=""></span>
-    </section>
-
-    <section class="section">
-        <div class="img-container">
-            <button id="btnSaveToFav" class="img__btn">
-                <span class="material-symbols-outlined">grade</span>
-            </button>
-            <img id="main-img" class="img" alt="Imagen de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
-        </div>
-
-        <button id="btn-random" class="btn">New doge</button>
-    </section>
-
-    <section id="uploading" class="section section--lg">
-        <h2 class="section__title">Upload a picture of your dog</h2>
-
-        <form id="uploadingForm">
-            <div class="input-file-container">
-                <input id="input-file" class="input-file" type="file" name="file" onchange="previewImage()">
-                <label id="input-file-trigger" tabindex="0" for="file" class="input-file-trigger">Select a file...</label>
-                <p id="file-return" class="file-return"></p>
-                <div id="preview-container" class="">
-                    <img id="preview" class="">
-                </div>
-            </div>
-            
-            <button type="button" onclick="uploadPhoto()" class="btn btn--lit">Upload photo</button>
-            <!-- Se elige type="button" para que el form no se envie automaticamente y podamos controlarlo por js -->
-        </form>
-    </section>
-
-    <section class="section section--lg">
-        <h2 class="section__title">Favorites doges</h2>
-        <div id="favorites" class="section__grid">
-            <!-- 
-            <article class="related-img-container">
-                <button class="img__btn--delete">
-                    <span class="material-symbols-outlined">delete</span>
+    <main>
+        <section class="section">
+            <span id="error" class=""></span>
+        </section>
+    
+        <section class="section">
+            <div class="img-container">
+                <button id="btnSaveToFav" class="img__btn">
+                    <span class="material-symbols-outlined">grade</span>
                 </button>
-                <img id="favorite-img-1" class="img" alt="Imagen favorita de perro"> <!- Omitimos src (se agregará con JS) ->
-            </article> -->
-        </div>
-    </section>
-
-    <section class="section section--lg">
-        <h2 class="section__title">Related doges</h2>
-        <div class="section__grid">
-            <article class="related-img-container">
-                <img id="related-img-1" class="img" alt="Imagen relacionada de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
-            </article>
-            <article class="related-img-container">
-                <img id="related-img-2" class="img" alt="Imagen relacionada de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
-            </article>
-            <article class="related-img-container">
-                <img id="related-img-3" class="img" alt="Imagen relacionada de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
-            </article>
-            <article class="related-img-container">
-                <img id="related-img-4" class="img" alt="Imagen relacionada de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
-            </article>
-        </div>
-    </section>
+                <img id="main-img" class="img" alt="Imagen de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
+            </div>
+    
+            <button id="btn-random" class="btn">New doge</button>
+        </section>
+    
+        <section class="section section--lg">
+            <h2 class="section__title">Favorites doges</h2>
+            <div id="favorites" class="section__grid">
+                <!-- 
+                <article class="related-img-container">
+                    <button class="img__btn--delete">
+                        <span class="material-symbols-outlined">delete</span>
+                    </button>
+                    <img id="favorite-img-1" class="img" alt="Imagen favorita de perro"> <!- Omitimos src (se agregará con JS) ->
+                </article> -->
+            </div>
+        </section>
+    
+        <section id="uploading" class="section section--lg">
+            <h2 class="section__title">Upload a picture of your dog</h2>
+    
+            <form id="uploadingForm">
+                <div class="input-file-container">
+                    <input id="input-file" class="input-file" type="file" name="file" onchange="previewImage()">
+                    <label id="input-file-trigger" tabindex="0" for="file" class="input-file-trigger">Select a file...</label>
+                    <p id="file-return" class="file-return"></p>
+                    <div id="preview-container" class="">
+                        <img id="preview" class="">
+                    </div>
+                </div>
+                
+                <button type="button" onclick="uploadPhoto()" class="btn btn--lit">Upload photo</button>
+                <!-- Se elige type="button" para que el form no se envie automaticamente y podamos controlarlo por js -->
+            </form>
+        </section>
+    
+        <section class="section section--lg">
+            <h2 class="section__title">Related doges</h2>
+            <div class="section__grid">
+                <article class="related-img-container">
+                    <img id="related-img-1" class="img" alt="Imagen relacionada de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
+                </article>
+                <article class="related-img-container">
+                    <img id="related-img-2" class="img" alt="Imagen relacionada de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
+                </article>
+                <article class="related-img-container">
+                    <img id="related-img-3" class="img" alt="Imagen relacionada de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
+                </article>
+                <article class="related-img-container">
+                    <img id="related-img-4" class="img" alt="Imagen relacionada de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
+                </article>
+            </div>
+        </section>
+    </main>
     
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./main.js"></script>
