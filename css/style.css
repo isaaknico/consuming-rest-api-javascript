@@ -9,18 +9,6 @@ html {
     font-family: 'Montserrat', sans-serif;
 }
 
-.error {
-    display: flex;
-    width: 100%;
-    max-width: 60rem;
-    margin: 0 auto;
-    padding: 1rem 2rem;
-    border-radius: 2rem;
-    font-size: 1.4rem;
-    color: white;
-    background-color: rgb(225, 82, 82);
-}
-
 .section {
     padding: 0 2rem;
     margin: 0 auto;
@@ -29,6 +17,42 @@ html {
 
 .section--lg {
     max-width: 800px;
+}
+
+.section--msj {
+    position: fixed;
+    top: 1.6rem;
+    z-index: 1;
+    width: 100%;
+}
+
+.msj-container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+    background-color: rgb(225, 82, 82);
+    font-size: 1.4rem;
+    color: #fff;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
+    display: none; /* flex */
+    justify-content: space-between;
+    align-items: center;
+}
+
+.msj__btn {
+    width: 3.2rem;
+    height: 3.2rem;
+    border: 0;
+    border-radius: .8rem;
+    background-color: transparent;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.msj__btn:hover {
+    background-color: rgb(255, 92, 92);
+    cursor: pointer;
 }
 
 .title {
