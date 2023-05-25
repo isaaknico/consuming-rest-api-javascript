@@ -4,6 +4,7 @@ const API_URL_FAVS_DELETE = (id) => `https://api.thedogapi.com/v1/favourites/${i
 const API_URL_UPLOAD = 'https://api.thedogapi.com/v1/images/upload';
 const API_KEY = 'Your-api-key';
 const spanError = document.getElementById('error');
+const spanContainer = document.getElementById('msj-container');
 
 // Crea instancia de axios y Agrega headers por defecto
 const api = axios.create({
@@ -32,8 +33,7 @@ async function getRandom() {
         console.log('random data', data);
 
         if (response.status !== 200) {
-            spanError.innerHTML = `There was an error in Random: ${response.status} ${data.message}`;
-            spanError.classList.add('error');
+            showError('There was an error in Random', response.status, data.message);
         } else {
             const img = document.getElementById('main-img');
             const button = document.getElementById('btnSaveToFav');
@@ -70,8 +70,7 @@ async function getFavorites() {
         console.log('favorites data', data);
         
         if (response.status !== 200) {
-            spanError.innerHTML = `There was an error in Favorites: ${response.status} ${data.message}`;
-            spanError.classList.add('error');
+            showError('There was an error in Favorites', response.status, data.message);
         } else {
             // Limpia seccion
             const section = document.getElementById('favorites');
@@ -160,8 +159,7 @@ async function saveToFavorites(id) {
     // La api-key se agregó con los headers por default.
 
     if (status !== 200) {
-        spanError.innerHTML = `There was an error in Save to Favorites: ${ status } ${ data.message }`;
-        spanError.classList.add('error');
+        showError('There was an error in Save to Favorites', status, data.message);
     } else {
         console.log('Guardado en favoritos');
         getFavorites();
@@ -180,8 +178,7 @@ async function deleteFromFavorites(id) {
     const data = await response.json();
 
     if (response.status !== 200) {
-        spanError.innerHTML = `There was an error in Delete from Favorites: ${response.status} ${data.message}`;
-        spanError.classList.add('error');
+        showError('There was an error in Delete from Favorites', response.status, data.message);
     } else {
         console.log('Eliminado de favoritos');
         getFavorites();
@@ -207,8 +204,7 @@ async function uploadPhoto() {
     const data = await response.json();
 
     if (response.status !== 201) { // Se compara con status created 201
-        spanError.innerHTML = `There was an error in Upload Photo: ${response.status} ${data.message}`;
-        spanError.classList.add('error');
+        showError('There was an error in Upload Photo', response.status, data.message);
     } else {
         console.log('Foto subida correctamente');
         console.log('data:', data);
@@ -239,6 +235,11 @@ async function previewImage() {
             fileReturn.innerHTML = files[0].name; // Retorna el nombre del archivo
         }
     }
+}
+
+function showError(text, status, message) {
+    spanError.innerHTML = `${text}: ${status} ${message}`;
+    spanContainer.style.display = 'flex';
 }
 
 const btn = document.getElementById('btn-random');
