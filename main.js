@@ -5,6 +5,9 @@ const API_URL_UPLOAD = 'https://api.thedogapi.com/v1/images/upload';
 const API_KEY = 'Your-api-key';
 const spanError = document.getElementById('error');
 const spanContainer = document.getElementById('msj-container');
+const spanBtn = document.getElementById('msj-btn');
+
+spanBtn.addEventListener('click', () => spanContainer.style.display = 'none');
 
 // Crea instancia de axios y Agrega headers por defecto
 const api = axios.create({
