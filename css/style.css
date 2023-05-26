@@ -109,19 +109,48 @@ html {
 
 .img__btn {
     position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
+    bottom: 2rem;
+    right: 2rem;
     width: 4rem;
     height: 4rem;
-    color: white;
+    color: rgba(255, 255, 255, .8);
     border: 0;
-    border-radius: 1rem;
-    background-color: rgba(0, 0, 0, .5);
+    border-radius: 1.5rem;
+    background-color: rgba(141, 141, 141, 0.5);
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 .img__btn:hover {
-    background-color: rgba(0, 219, 161, 0.971)
+    background-color: rgba(0, 0, 0, .5);
+    cursor: pointer;
+}
+
+.img__btn:active {
+    background-color: rgba(0, 219, 161, 0.971);
+}
+
+.favorite {
+    font-variation-settings: 'FILL' 1;
+    color: #fff;
+}
+
+.tooltip .tooltip__text {
+    position: absolute;
+    right: 115%;
+    z-index: 1;
+    width: max-content;
+    padding: .5rem;
+    border-radius: .8rem;
+    background-color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    color: black;
+    text-align: center;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+    visibility: hidden;
+}
+
+.tooltip:hover .tooltip__text {
+    visibility: visible;
 }
 
 .img__btn--delete {
