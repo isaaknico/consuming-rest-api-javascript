@@ -6,6 +6,13 @@ const API_KEY = 'Your-api-key';
 const spanError = document.getElementById('error');
 const spanContainer = document.getElementById('msj-container');
 const spanBtn = document.getElementById('msj-btn');
+const button = document.getElementById('btnSaveToFav');
+const tooltip = document.getElementById('tooltip-text');
+const BUTTON_MODES = Object.freeze({
+    SAVE: Symbol(),
+    DELETE: Symbol(),
+});
+let curRandomImgId;
 
 spanBtn.addEventListener('click', () => spanContainer.style.display = 'none');
 
@@ -39,13 +46,22 @@ async function getRandom() {
             showError('There was an error in Random', response.status, data.message);
         } else {
             const img = document.getElementById('main-img');
-            const button = document.getElementById('btnSaveToFav');
             
             img.src = data[0].url;
-            button.onclick = () => saveToFavorites(data[0].id); // Se declara funcion anonima que se llama solo al dar click y por dentro ejecuta otra funcion.
-            // button.onclick = saveToFavorites(data[0].id); // ERROR. Esto llamará a la funct automaticamente, o al recargar la pag.
+            const imgId = data[0].id;
+            curRandomImgId = imgId;
+
+            const isInFav = await isInFavorites(imgId);
+
+            if (isInFav) {
+                switchButtonTo(BUTTON_MODES.DELETE, imgId, isInFav.id);
+            } else {
+                switchButtonTo(BUTTON_MODES.SAVE, imgId); // Se declara funcion anonima que se llama solo al dar click y por dentro ejecuta otra funcion.
+                // button.onclick = saveToFavorites(data[0].id); // ERROR. Esto llamará a la funct automaticamente, o al recargar la pag.
+            }
         }
-        
+        return data;
+
     } catch (error) {
         console.log(error);
     }
@@ -105,7 +121,7 @@ async function getFavorites() {
 
                 span.appendChild(spanText); // Inserta texto dentro de elem span
                 button.appendChild(span); // Inserta span dentro del botón
-                button.onclick = () => deleteFromFavorites(item.id); // Asigna id a botón eliminar
+                button.onclick = () => deleteFromFavorites(item.id, item.image_id); // Asigna id a botón eliminar
                 img.src = item.image.url; // Asigna image al attr src
                 article.appendChild(button); 
                 article.appendChild(img);
@@ -139,7 +155,7 @@ async function getRelateds() {
 }
 
 // Save image to Favorites
-async function saveToFavorites(id) {
+async function saveToFavorites(imgId) {
     /* Usando fetch
     const response = await fetch(API_URL_FAVS, { // Se envia un obj como arg
         method: 'POST',
@@ -155,7 +171,7 @@ async function saveToFavorites(id) {
 
     /* Usando Axios */
     const { data, status } = await api.post('/favourites', {
-        image_id: id,
+        image_id: imgId,
     });
     // { data, status }: Propiedades del típico obj response obtenido al realizar petición, evitan usar: data=await response.json(); y response.status.
     // Llamamos a instancia que contiene url, indicamos metodo, pasamos endpoint y data.
@@ -165,13 +181,14 @@ async function saveToFavorites(id) {
         showError('There was an error in Save to Favorites', status, data.message);
     } else {
         console.log('Guardado en favoritos');
+        switchButtonTo(BUTTON_MODES.DELETE, imgId, data.id);
         getFavorites();
     }
 
 }
 
 // Delete image from Favorites
-async function deleteFromFavorites(id) {
+async function deleteFromFavorites(id, imgId) {
     const response = await fetch(API_URL_FAVS_DELETE(id), {
         method: 'DELETE',
         headers: {
@@ -184,6 +201,9 @@ async function deleteFromFavorites(id) {
         showError('There was an error in Delete from Favorites', response.status, data.message);
     } else {
         console.log('Eliminado de favoritos');
+        if (imgId == curRandomImgId) {
+            switchButtonTo(BUTTON_MODES.SAVE, imgId);
+        }
         getFavorites();
     }
 }
@@ -240,9 +260,26 @@ async function previewImage() {
     }
 }
 
+async function isInFavorites(imgId) {
+    const { data } = await api.get(`/favourites?image_id=${imgId}`);
+    return data[0] ? data[0] : false;
+}
+
 function showError(text, status, message) {
     spanError.innerHTML = `${text}: ${status} ${message}`;
     spanContainer.style.display = 'flex';
+}
+
+function switchButtonTo(mode, imgId, id = false) {
+	if (mode == BUTTON_MODES.SAVE) {
+		button.classList.remove('favorite');
+        tooltip.innerHTML = 'Add to favorites';
+	    button.onclick = () => saveToFavorites(imgId);
+	} else if (mode == BUTTON_MODES.DELETE) {
+		button.classList.add('favorite');
+        tooltip.innerHTML = 'Delete from favorites';
+        button.onclick = () => deleteFromFavorites(id, imgId);
+	}
 }
 
 const btn = document.getElementById('btn-random');
