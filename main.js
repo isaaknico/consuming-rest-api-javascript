@@ -93,40 +93,60 @@ async function getFavorites() {
         } else {
             // Limpia seccion
             const section = document.getElementById('favorites');
-            section.innerHTML = "";
-            // y vuelve a crear titulo
-            /*
-            const h2 = document.createElement('h2');
-            const h2Text = document.createTextNode('Favorites doges');
-            h2.appendChild(h2Text);
-            h2.classList.add('section__title');
-            section.appendChild(h2); */
 
-            // Recorre cada uno de los elems
-            data.forEach(item => {
-                // Manipula el DOM dinamicamente
-                const article = document.createElement('article');
-                article.classList.add('related-img-container');
+            if (data.length < 1) {
+                section.classList.add('single-item');
+                section.innerHTML = "";
 
-                const button = document.createElement('button');
-                button.classList.add('img__btn--delete');
+                const div = document.createElement('div');
+                const icon = document.createElement('span');
+                icon.textContent = 'grade';
+                
+                const p = document.createElement('p');
+                p.textContent = 'Don\'t lose this doge, save it to favorites';
 
-                const span = document.createElement('span');
-                span.classList.add('material-symbols-outlined');
+                div.classList.add('section__caption');
+                icon.classList.add('material-symbols-outlined');
 
-                const spanText = document.createTextNode('delete'); // Crea un texto para un nodo html, se debe indicar el texto que queremos crear.
+                div.append(icon, p);
+                section.appendChild(div);
+            } else {
+                section.classList.remove('single-item');
+                section.innerHTML = "";
+                // y vuelve a crear titulo
+                /*
+                const h2 = document.createElement('h2');
+                const h2Text = document.createTextNode('Favorites doges');
+                h2.appendChild(h2Text);
+                h2.classList.add('section__title');
+                section.appendChild(h2); */
 
-                const img = document.createElement('img');
-                img.classList.add('img');
+                // Recorre cada uno de los elems
+                data.forEach(item => {
+                    // Manipula el DOM dinamicamente
+                    const article = document.createElement('article');
+                    article.classList.add('related-img-container');
 
-                span.appendChild(spanText); // Inserta texto dentro de elem span
-                button.appendChild(span); // Inserta span dentro del botón
-                button.onclick = () => deleteFromFavorites(item.id, item.image_id); // Asigna id a botón eliminar
-                img.src = item.image.url; // Asigna image al attr src
-                article.appendChild(button); 
-                article.appendChild(img);
-                section.appendChild(article);
-            })
+                    const button = document.createElement('button');
+                    button.classList.add('img__btn--delete');
+
+                    const span = document.createElement('span');
+                    span.classList.add('material-symbols-outlined');
+
+                    const spanText = document.createTextNode('delete'); // Crea un texto para un nodo html, se debe indicar el texto que queremos crear.
+
+                    const img = document.createElement('img');
+                    img.classList.add('img');
+
+                    span.appendChild(spanText); // Inserta texto dentro de elem span
+                    button.appendChild(span); // Inserta span dentro del botón
+                    button.onclick = () => deleteFromFavorites(item.id, item.image_id); // Asigna id a botón eliminar
+                    img.src = item.image.url; // Asigna image al attr src
+                    article.appendChild(button); 
+                    article.appendChild(img);
+                    section.appendChild(article);
+                })
+            }
         }
 
     } catch (error) {

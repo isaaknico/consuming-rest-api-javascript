@@ -73,6 +73,22 @@ html {
     gap: 1rem;
 }
 
+.section__grid.single-item {
+    height: 15rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.section__caption {
+    font-size: 1.5rem;
+    color:  black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
 .img-container {
     display: flex;
     position: relative;
