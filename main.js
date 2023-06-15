@@ -201,7 +201,9 @@ async function saveToFavorites(imgId) {
         showError('There was an error in Save to Favorites', status, data.message);
     } else {
         console.log('Guardado en favoritos');
-        switchButtonTo(BUTTON_MODES.DELETE, imgId, data.id);
+        if (imgId == curRandomImgId) {
+            switchButtonTo(BUTTON_MODES.DELETE, imgId, data.id);
+        }
         getFavorites();
     }
 
