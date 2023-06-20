@@ -276,6 +276,8 @@ async function previewImage() {
             const previewImage = document.getElementById('preview')
             previewImage.src = fileReader.result; // Asigna imagen a etiqueta
             previewImage.classList.add('img');
+            const previewDeleteBtn = document.getElementById('preview-delete-btn');
+            previewDeleteBtn.classList.remove('inactive');
 
             fileReturn.innerHTML = files[0].name; // Retorna el nombre del archivo
         }
@@ -302,6 +304,19 @@ function switchButtonTo(mode, imgId, id = false) {
         tooltip.innerHTML = 'Delete from favorites';
         button.onclick = () => deleteFromFavorites(id, imgId);
 	}
+}
+
+function resetForm() {            
+    const previewContainer = document.getElementById('preview-container');
+    previewContainer.classList.remove('related-img-container');
+    previewContainer.classList.remove('preview-container');
+    const previewImage = document.getElementById('preview')
+    previewImage.src = '';
+    previewImage.classList.remove('img');
+    const previewDeleteBtn = document.getElementById('preview-delete-btn');
+    previewDeleteBtn.classList.add('inactive');
+    const fileReturn = document.getElementById('file-return');
+    fileReturn.textContent = '';
 }
 
 const btn = document.getElementById('btn-random');

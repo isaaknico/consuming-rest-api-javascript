@@ -300,3 +300,7 @@ html {
     position: absolute;
     top: 10rem;
 }
+
+.inactive {
+    display: none;
+}
