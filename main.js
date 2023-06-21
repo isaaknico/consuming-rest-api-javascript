@@ -8,6 +8,7 @@ const spanContainer = document.getElementById('msj-container');
 const spanBtn = document.getElementById('msj-btn');
 const button = document.getElementById('btnSaveToFav');
 const tooltip = document.getElementById('tooltip-text');
+const loader = document.getElementById('loader');
 const BUTTON_MODES = Object.freeze({
     SAVE: Symbol(),
     DELETE: Symbol(),
@@ -231,6 +232,8 @@ async function deleteFromFavorites(id, imgId) {
 }
 
 async function uploadPhoto() {
+    showLoader();
+
     const form = document.getElementById('uploadingForm');
     const formData = new FormData(form); // Crea instancia FormData y le pasa un form con todos los valores de los input que contenga
 
@@ -256,6 +259,9 @@ async function uploadPhoto() {
         console.log('data.url:',data.url);
         saveToFavorites(data.id); // Guarda imagen subida en favoritos
     }
+
+    resetForm();
+    hideLoader();
 }
 
 async function previewImage() {
@@ -317,6 +323,14 @@ function resetForm() {
     previewDeleteBtn.classList.add('inactive');
     const fileReturn = document.getElementById('file-return');
     fileReturn.textContent = '';
+}
+
+function showLoader() {
+    loader.style.display = 'block';
+}
+
+function hideLoader() {
+    loader.style.display = 'none';
 }
 
 const btn = document.getElementById('btn-random');
