@@ -3,9 +3,9 @@ const API_URL_FAVS = 'https://api.thedogapi.com/v1/favourites';
 const API_URL_FAVS_DELETE = (id) => `https://api.thedogapi.com/v1/favourites/${id}`;   // Pasa endpoint con id
 const API_URL_UPLOAD = 'https://api.thedogapi.com/v1/images/upload';
 const API_KEY = 'Your-api-key';
-const spanError = document.getElementById('error');
-const spanContainer = document.getElementById('msj-container');
-const spanBtn = document.getElementById('msj-btn');
+const msjText = document.getElementById('msj-text');
+const msj = document.getElementById('msj');
+const msjBtn = document.getElementById('msj-btn');
 const button = document.getElementById('btnSaveToFav');
 const tooltip = document.getElementById('tooltip-text');
 const loader = document.getElementById('loader');
@@ -14,8 +14,6 @@ const BUTTON_MODES = Object.freeze({
     DELETE: Symbol(),
 });
 let curRandomImgId;
-
-spanBtn.addEventListener('click', () => spanContainer.style.display = 'none');
 
 // Crea instancia de axios y Agrega headers por defecto
 const api = axios.create({
@@ -44,7 +42,8 @@ async function getRandom() {
         console.log('random data', data);
 
         if (response.status !== 200) {
-            showError('There was an error in Random', response.status, data.message);
+            showMessage('error', `There was an error in Random: ${response.status} ${data.message}`);
+            setTimeout(hideMessage, 3000);
         } else {
             const img = document.getElementById('main-img');
             
@@ -90,7 +89,8 @@ async function getFavorites() {
         console.log('favorites data', data);
         
         if (response.status !== 200) {
-            showError('There was an error in Favorites', response.status, data.message);
+            showMessage('error', `There was an error in Favorites: ${response.status} ${data.message}`);
+            setTimeout(hideMessage, 3000);
         } else {
             // Limpia seccion
             const section = document.getElementById('favorites');
@@ -199,7 +199,8 @@ async function saveToFavorites(imgId) {
     // La api-key se agregó con los headers por default.
 
     if (status !== 200) {
-        showError('There was an error in Save to Favorites', status, data.message);
+        showMessage('error', `There was an error in Save to Favorites: ${status} ${data.message}`);
+        setTimeout(hideMessage, 3000);
     } else {
         console.log('Guardado en favoritos');
         if (imgId == curRandomImgId) {
@@ -221,7 +222,8 @@ async function deleteFromFavorites(id, imgId) {
     const data = await response.json();
 
     if (response.status !== 200) {
-        showError('There was an error in Delete from Favorites', response.status, data.message);
+        showMessage('error', `There was an error in Delete from Favorites: ${response.status} ${data.message}`);
+        setTimeout(hideMessage, 3000);
     } else {
         console.log('Eliminado de favoritos');
         if (imgId == curRandomImgId) {
@@ -252,7 +254,8 @@ async function uploadPhoto() {
     const data = await response.json();
 
     if (response.status !== 201) { // Se compara con status created 201
-        showError('There was an error in Upload Photo', response.status, data.message);
+        showMessage('error', `There was an error in Upload Photo: ${response.status} ${data.message}`);
+        setTimeout(hideMessage, 3000);
     } else {
         console.log('Foto subida correctamente');
         console.log('data:', data);
@@ -295,9 +298,17 @@ async function isInFavorites(imgId) {
     return data[0] ? data[0] : false;
 }
 
-function showError(text, status, message) {
-    spanError.innerHTML = `${text}: ${status} ${message}`;
-    spanContainer.style.display = 'flex';
+function showMessage(type, message) {
+    msj.classList.remove('msj--error');
+    msj.classList.remove('msj--success');
+    msj.classList.add(`msj--${type}`);
+    msjText.textContent = message;
+    msj.style.display = 'flex';
+    msjBtn.addEventListener('click', hideMessage);
+}
+
+function hideMessage() {
+    msj.style.display = 'none';
 }
 
 function switchButtonTo(mode, imgId, id = false) {

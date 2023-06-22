@@ -26,18 +26,25 @@ html {
     width: 100%;
 }
 
-.msj-container {
+.msj {
     max-width: 760px;
     margin: 0 auto;
     padding: 1rem 2rem;
     border-radius: 2rem;
-    background-color: rgb(225, 82, 82);
     font-size: 1.4rem;
     color: #fff;
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
     display: none; /* flex */
     justify-content: space-between;
     align-items: center;
+}
+
+.msj--error {
+    background-color: rgb(225, 82, 82);
+}
+
+.msj--success {
+    background-color: rgb(30, 220, 7);
 }
 
 .msj__btn {
@@ -51,7 +58,7 @@ html {
 }
 
 .msj__btn:hover {
-    background-color: rgb(255, 92, 92);
+    background-color: rgba(0, 0, 0, 0.1);
     cursor: pointer;
 }
 
