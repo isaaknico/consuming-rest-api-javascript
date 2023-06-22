@@ -265,6 +265,8 @@ async function uploadPhoto() {
 
     resetForm();
     hideLoader();
+    showMessage('success', 'Photo uploaded successfully. Thanks for sharing.');
+    setTimeout(hideMessage, 3000);
 }
 
 async function previewImage() {
