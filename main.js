@@ -45,20 +45,7 @@ async function getRandom() {
             showMessage('error', `There was an error in Random: ${response.status} ${data.message}`);
             setTimeout(hideMessage, 3000);
         } else {
-            const img = document.getElementById('main-img');
-            
-            img.src = data[0].url;
-            const imgId = data[0].id;
-            curRandomImgId = imgId;
-
-            const isInFav = await isInFavorites(imgId);
-
-            if (isInFav) {
-                switchButtonTo(BUTTON_MODES.DELETE, imgId, isInFav.id);
-            } else {
-                switchButtonTo(BUTTON_MODES.SAVE, imgId); // Se declara funcion anonima que se llama solo al dar click y por dentro ejecuta otra funcion.
-                // button.onclick = saveToFavorites(data[0].id); // ERROR. Esto llamará a la funct automaticamente, o al recargar la pag.
-            }
+            printMainImage(data[0].id, data[0].url);
         }
         return data;
 
@@ -298,6 +285,22 @@ async function previewImage() {
 async function isInFavorites(imgId) {
     const { data } = await api.get(`/favourites?image_id=${imgId}`);
     return data[0] ? data[0] : false;
+}
+
+async function printMainImage(imgId, url) {
+    const img = document.getElementById('main-img');
+            
+    img.src = url;
+    curRandomImgId = imgId;
+
+    const isInFav = await isInFavorites(imgId);
+
+    if (isInFav) {
+        switchButtonTo(BUTTON_MODES.DELETE, imgId, isInFav.id);
+    } else {
+        switchButtonTo(BUTTON_MODES.SAVE, imgId); // Se declara funcion anonima que se llama solo al dar click y por dentro ejecuta otra funcion.
+        // button.onclick = saveToFavorites(data[0].id); // ERROR. Esto llamará a la funct automaticamente, o al recargar la pag.
+    }
 }
 
 function showMessage(type, message) {
