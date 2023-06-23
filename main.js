@@ -130,6 +130,10 @@ async function getFavorites() {
                     button.appendChild(span); // Inserta span dentro del botón
                     button.onclick = () => deleteFromFavorites(item.id, item.image_id); // Asigna id a botón eliminar
                     img.src = item.image.url; // Asigna image al attr src
+                    img.onclick = () => { 
+                        printMainImage(item.image_id, item.image.url);
+                        window.scrollTo(0, 0);
+                    };
                     article.appendChild(button); 
                     article.appendChild(img);
                     section.appendChild(article);
@@ -157,6 +161,23 @@ async function getRelateds() {
         imgRelated2.src = dataRelated[1].url;
         imgRelated3.src = dataRelated[2].url;
         imgRelated4.src = dataRelated[3].url;
+
+        imgRelated1.onclick = () => { 
+            printMainImage(dataRelated[0].id, dataRelated[0].url);
+            window.scrollTo(0, 0);
+        };
+        imgRelated2.onclick = () => { 
+            printMainImage(dataRelated[1].id, dataRelated[1].url);
+            window.scrollTo(0, 0);
+        };
+        imgRelated3.onclick = () => { 
+            printMainImage(dataRelated[2].id, dataRelated[2].url);
+            window.scrollTo(0, 0);
+        };
+        imgRelated4.onclick = () => { 
+            printMainImage(dataRelated[3].id, dataRelated[3].url);
+            window.scrollTo(0, 0);
+        };
     } catch (error) {
         console.log(error)
     }
