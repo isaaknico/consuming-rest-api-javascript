@@ -282,18 +282,18 @@ html {
     height: 4rem;
     padding: 1rem;
     text-align: center;
-    transition: all .4s;
     cursor: pointer;
-    border-radius: 1rem;    
+    border-radius: 3rem;    
     color: black;
     font-size: 1.3rem;
-    border: .2rem solid rgba(0, 219, 161, 0.971);
+    border: .15rem solid rgba(0, 219, 161, 0.971);
     background-color: transparent;
 }
 
-.input-file-trigger:hover {
+.input-file:hover + .input-file-trigger {
     color: white;
-    background-color: rgba(0, 219, 161, 0.971);
+    border-color: rgb(28, 167, 120);
+    background-color: rgb(28, 167, 120);
 }
 
 .file-return {
