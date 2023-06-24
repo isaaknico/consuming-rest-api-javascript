@@ -2,7 +2,7 @@ const API_URL = 'https://api.thedogapi.com/v1/images/search';
 const API_URL_FAVS = 'https://api.thedogapi.com/v1/favourites';
 const API_URL_FAVS_DELETE = (id) => `https://api.thedogapi.com/v1/favourites/${id}`;   // Pasa endpoint con id
 const API_URL_UPLOAD = 'https://api.thedogapi.com/v1/images/upload';
-const API_KEY = 'Your-api-key';
+const API_KEY = process.env.API_KEY;
 const msjText = document.getElementById('msj-text');
 const msj = document.getElementById('msj');
 const msjBtn = document.getElementById('msj-btn');
