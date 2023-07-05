@@ -1,8 +1,4 @@
 const API_URL = 'https://api.thedogapi.com/v1/images/search';
-const API_URL_FAVS = 'https://api.thedogapi.com/v1/favourites';
-const API_URL_FAVS_DELETE = (id) => `https://api.thedogapi.com/v1/favourites/${id}`;   // Pasa endpoint con id
-const API_URL_UPLOAD = 'https://api.thedogapi.com/v1/images/upload';
-const API_KEY = process.env.API_KEY;
 const msjText = document.getElementById('msj-text');
 const msj = document.getElementById('msj');
 const msjBtn = document.getElementById('msj-btn');
@@ -16,9 +12,9 @@ const BUTTON_MODES = Object.freeze({
 let curRandomImgId;
 
 // Crea instancia de axios y Agrega headers por defecto
-const api = axios.create({
-    baseURL: 'https://api.thedogapi.com/v1',
-    headers: { 'x-api-key': API_KEY } // Agrega la api-key a cada petición.
+const server = axios.create({
+    baseURL: '/.netlify/functions',
+    //headers: { 'x-api-key': API_KEY } // API_KEY ahora se leerá desde el servidor, donde también se realizará el pedido a la API.
 });
 
 /* Usando fetch y .then
@@ -57,11 +53,7 @@ async function getRandom() {
 // Favorites images
 async function getFavorites() {
     try {
-        const response = await fetch(`${API_URL_FAVS}`, {
-            headers: {
-                'x-api-key': API_KEY,
-            }, 
-        });
+        const response = await fetch('/.netlify/functions/get_favorites');
         const data = await response.json();
 
         // Ordena por agregados recientemente
@@ -199,7 +191,7 @@ async function saveToFavorites(imgId) {
     const data = await response.json();  */
 
     /* Usando Axios */
-    const { data, status } = await api.post('/favourites', {
+    const { data, status } = await server.post('/save_to_favorites', {
         image_id: imgId,
     });
     // { data, status }: Propiedades del típico obj response obtenido al realizar petición, evitan usar: data=await response.json(); y response.status.
@@ -221,11 +213,11 @@ async function saveToFavorites(imgId) {
 
 // Delete image from Favorites
 async function deleteFromFavorites(id, imgId) {
-    const response = await fetch(API_URL_FAVS_DELETE(id), {
-        method: 'DELETE',
-        headers: {
-            'x-api-key': API_KEY,
-        }, 
+    const response = await fetch('/.netlify/functions/delete_from_favorites', {
+        method: 'POST',
+        body: JSON.stringify({
+            favorite_id: id,
+        })
     });
     const data = await response.json();
 
@@ -249,16 +241,10 @@ async function uploadPhoto() {
 
     console.log(formData.get('file')); // Obtenemos la llave file, que es el valor del input con name='file' del form.
 
-    const response = await fetch(API_URL_UPLOAD, {
+    const response = await fetch('/.netlify/functions/upload_photo', {
         method: 'POST',
-        headers: {
-            // 'Content-Type': 'multipart/form-data', // Al definir Content-type manualmente requiere param boundary o marcará error. Se deja a Fetch que defina el content-type con todo y boundary automaticamente. 
-            'x-api-key': API_KEY,
-        },
         body: formData, // FormData no requiere parsear el body.
-        
     });
-
     const data = await response.json();
 
     if (response.status !== 201) { // Se compara con status created 201
@@ -304,7 +290,9 @@ async function previewImage() {
 }
 
 async function isInFavorites(imgId) {
-    const { data } = await api.get(`/favourites?image_id=${imgId}`);
+    const { data } = await server.post('/is_in_favorites', {
+        image_id: imgId,
+    });
     return data[0] ? data[0] : false;
 }
 
