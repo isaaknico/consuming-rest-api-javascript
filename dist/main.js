@@ -234,6 +234,11 @@ async function deleteFromFavorites(id, imgId) {
 }
 
 async function uploadPhoto() {
+    const isFormValid = validateForm();
+    if (!isFormValid) {
+        return false;
+    }
+
     showLoader();
 
     const form = document.getElementById('uploadingForm');
@@ -248,19 +253,19 @@ async function uploadPhoto() {
     const data = await response.json();
 
     if (response.status !== 201) { // Se compara con status created 201
-        showMessage('error', `There was an error in Upload Photo: ${response.status} ${data.message}`);
+        showMessage('error', `There was an error in Upload Photo. ${data.message}`);
         setTimeout(hideMessage, 3000);
     } else {
         console.log('Foto subida correctamente');
         console.log('data:', data);
         console.log('data.url:',data.url);
         saveToFavorites(data.id); // Guarda imagen subida en favoritos
+        showMessage('success', 'Photo uploaded successfully. Thanks for sharing.');
+        setTimeout(hideMessage, 3000);
     }
 
     resetForm();
     hideLoader();
-    showMessage('success', 'Photo uploaded successfully. Thanks for sharing.');
-    setTimeout(hideMessage, 3000);
 }
 
 async function previewImage() {
@@ -337,6 +342,26 @@ function switchButtonTo(mode, imgId, id = false) {
 	}
 }
 
+function validateForm() {
+    const fileInput = document.getElementById('input-file');
+    const file = fileInput.files[0];
+
+    if (!file) {
+        showMessage('error', `You have not selected any file.`)
+        setTimeout(hideMessage, 3000);
+        return false;
+    }
+
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!allowedTypes.includes(file.type)) {
+        showMessage('error', `The selected file is not a valid image. Please select a JPEG, PNG or GIF image.`)
+        setTimeout(hideMessage, 3000);
+        return false;
+    }
+
+    return true;
+}
+
 function resetForm() {            
     const previewContainer = document.getElementById('preview-container');
     previewContainer.classList.remove('related-img-container');
@@ -348,6 +373,7 @@ function resetForm() {
     previewDeleteBtn.classList.add('inactive');
     const fileReturn = document.getElementById('file-return');
     fileReturn.textContent = '';
+    document.getElementById('uploadingForm').reset();
 }
 
 function showLoader() {

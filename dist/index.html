@@ -58,9 +58,9 @@
         <section id="uploading" class="section section--lg">
             <h2 class="section__title">Upload a picture of your dog</h2>
     
-            <form id="uploadingForm"   name="yanny-v-laurel" method="post" data-netlify="true" data-netlify-honeypot="bot-field">
+            <form id="uploadingForm">
                 <div class="input-file-container">
-                    <input id="input-file" class="input-file" type="file" name="file" onchange="previewImage()">
+                    <input id="input-file" class="input-file" type="file" accept="image/*" name="file" onchange="previewImage()">
                     <label id="input-file-trigger" tabindex="0" for="file" class="input-file-trigger">Select a file...</label>
                     <p id="file-return" class="file-return"></p>
                     <div id="loader" class="loader">Uploading file...</div>

@@ -23,6 +23,9 @@ exports.handler = async function (event, context) {
             },
             body: formData, // FormData no requiere parsear el body. 
         });
+        if (response.status !== 201) {
+            throw new Error(`${ response.status } - ${ response.statusText }`);
+        }
         const data = await response.json();
         return {
             statusCode: 201,
@@ -32,7 +35,7 @@ exports.handler = async function (event, context) {
         console.log(err)
         return {
             statusCode: 422,
-            body: err.stack
+            body: JSON.stringify({message: String(err)}) //err.stack
         };
     }
 };
