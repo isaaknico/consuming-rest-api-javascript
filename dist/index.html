@@ -31,7 +31,7 @@
                     <span class="material-symbols-outlined">grade</span>
                     <span id="tooltip-text" class="tooltip__text">Save to favorites</span>
                 </button>
-                <img id="main-img" class="img" alt="Imagen de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
+                <img id="main-img" class="img skeleton" src="" alt=""> <!-- Omitimos src (se agregará con JS)-->
             </div>
     
             <button id="btn-random" class="btn">New doge</button>
@@ -40,18 +40,19 @@
         <section class="section section--lg">
             <h2 class="section__title">Favorites doges</h2>
             <div id="favorites" class="section__grid">
+                <template id="favorite-template">
+                    <article class="related-img-container">
+                        <button id="favorite-btn" class="img__btn--delete">
+                            <span class="material-symbols-outlined">delete</span>
+                        </button>
+                        <img id="favorite-img" class="img skeleton" src="" alt="" loading="lazy">
+                    </article>
+                </template>
                 <!-- 
                 <div class="section__caption">
                     <span class="material-symbols-outlined">grade</span>
                     <p>Don\'t lose this doge, save it to favorites</p>
                 </div> -->
-                <!-- 
-                <article class="related-img-container">
-                    <button class="img__btn--delete">
-                        <span class="material-symbols-outlined">delete</span>
-                    </button>
-                    <img id="favorite-img-1" class="img" alt="Imagen favorita de perro"> <!- Omitimos src (se agregará con JS) ->
-                </article> -->
             </div>
         </section>
     
@@ -79,19 +80,12 @@
     
         <section class="section section--lg">
             <h2 class="section__title">Related doges</h2>
-            <div class="section__grid">
-                <article class="related-img-container">
-                    <img id="related-img-1" class="img" alt="Imagen relacionada de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
-                </article>
-                <article class="related-img-container">
-                    <img id="related-img-2" class="img" alt="Imagen relacionada de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
-                </article>
-                <article class="related-img-container">
-                    <img id="related-img-3" class="img" alt="Imagen relacionada de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
-                </article>
-                <article class="related-img-container">
-                    <img id="related-img-4" class="img" alt="Imagen relacionada de perro aleatorio"> <!-- Omitimos src (se agregará con JS)-->
-                </article>
+            <div id="relateds" class="section__grid">
+                <template id="related-template">
+                    <article class="related-img-container">
+                        <img id="related-img" class="img skeleton" src="" alt="" loading="lazy"> <!-- Omitimos src (se agregará con JS)-->
+                    </article>
+                </template>
             </div>
         </section>
     </main>

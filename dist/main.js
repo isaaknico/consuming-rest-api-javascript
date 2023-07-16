@@ -5,6 +5,8 @@ const msjBtn = document.getElementById('msj-btn');
 const button = document.getElementById('btnSaveToFav');
 const tooltip = document.getElementById('tooltip-text');
 const loader = document.getElementById('loader');
+const favContainer = document.getElementById('favorites');
+const favTemplate = document.getElementById('favorite-template');
 const BUTTON_MODES = Object.freeze({
     SAVE: Symbol(),
     DELETE: Symbol(),
@@ -104,31 +106,17 @@ async function getFavorites() {
                 // Recorre cada uno de los elems
                 data.forEach(item => {
                     // Manipula el DOM dinamicamente
-                    const article = document.createElement('article');
-                    article.classList.add('related-img-container');
-
-                    const button = document.createElement('button');
-                    button.classList.add('img__btn--delete');
-
-                    const span = document.createElement('span');
-                    span.classList.add('material-symbols-outlined');
-
-                    const spanText = document.createTextNode('delete'); // Crea un texto para un nodo html, se debe indicar el texto que queremos crear.
-
-                    const img = document.createElement('img');
-                    img.classList.add('img');
-
-                    span.appendChild(spanText); // Inserta texto dentro de elem span
-                    button.appendChild(span); // Inserta span dentro del botón
+                    const div = favTemplate.content.cloneNode(true);
+                    const button = div.getElementById('favorite-btn');
                     button.onclick = () => deleteFromFavorites(item.id, item.image_id); // Asigna id a botón eliminar
+                    const img = div.getElementById('favorite-img');
                     img.src = item.image.url; // Asigna image al attr src
+                    img.alt = "Favorite dog image"
                     img.onclick = () => { 
                         printMainImage(item.image_id, item.image.url);
                         window.scrollTo(0, 0);
                     };
-                    article.appendChild(button); 
-                    article.appendChild(img);
-                    section.appendChild(article);
+                    section.append(div);
                 })
             }
         }
@@ -140,35 +128,26 @@ async function getFavorites() {
 
 // Related images
 async function getRelateds() {
+    const container = document.getElementById('relateds');
+    const relatedTemplate = document.getElementById('related-template');
+    renderSkeletons(relatedTemplate, container, 4);
+
     try {
         const resRelated = await fetch(`${API_URL}?limit=4`);
         const dataRelated = await resRelated.json();
 
-        const imgRelated1 = document.getElementById('related-img-1');
-        const imgRelated2 = document.getElementById('related-img-2');
-        const imgRelated3 = document.getElementById('related-img-3');
-        const imgRelated4 = document.getElementById('related-img-4');
+        container.innerHTML = '';
 
-        imgRelated1.src = dataRelated[0].url;
-        imgRelated2.src = dataRelated[1].url;
-        imgRelated3.src = dataRelated[2].url;
-        imgRelated4.src = dataRelated[3].url;
-
-        imgRelated1.onclick = () => { 
-            printMainImage(dataRelated[0].id, dataRelated[0].url);
-            window.scrollTo(0, 0);
-        };
-        imgRelated2.onclick = () => { 
-            printMainImage(dataRelated[1].id, dataRelated[1].url);
-            window.scrollTo(0, 0);
-        };
-        imgRelated3.onclick = () => { 
-            printMainImage(dataRelated[2].id, dataRelated[2].url);
-            window.scrollTo(0, 0);
-        };
-        imgRelated4.onclick = () => { 
-            printMainImage(dataRelated[3].id, dataRelated[3].url);
-            window.scrollTo(0, 0);
+        for (let i = 0; i < 4; i++) {
+            const div = relatedTemplate.content.cloneNode(true);
+            const img = div.getElementById('related-img');
+            img.src = dataRelated[i].url;
+            img.alt = 'Related dog image';
+            img.onclick = () => { 
+                printMainImage(dataRelated[i].id, dataRelated[i].url);
+                window.scrollTo(0, 0);
+            };
+            container.append(div);
         };
     } catch (error) {
         console.log(error)
@@ -305,6 +284,7 @@ async function printMainImage(imgId, url) {
     const img = document.getElementById('main-img');
             
     img.src = url;
+    img.alt = "Random dog image"
     curRandomImgId = imgId;
 
     const isInFav = await isInFavorites(imgId);
@@ -384,10 +364,17 @@ function hideLoader() {
     loader.style.display = 'none';
 }
 
+function renderSkeletons(template, container, quantity) {
+    for (let i = 0; i < quantity; i++) {
+        container.append(template.content.cloneNode(true));
+    }
+}
+
 const btn = document.getElementById('btn-random');
 btn.onclick = getRandom;
 
 getRandom();
+renderSkeletons(favTemplate, favContainer, 6);
 getFavorites();
 getRelateds();
 
