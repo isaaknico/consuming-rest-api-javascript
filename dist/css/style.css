@@ -151,7 +151,7 @@ html {
     right: 2rem;
     width: 4rem;
     height: 4rem;
-    color: rgba(255, 255, 255, .8);
+    color: rgba(255, 255, 255, .9);
     border: 0;
     border-radius: 1.5rem;
     background-color: rgba(141, 141, 141, 0.5);
@@ -159,7 +159,7 @@ html {
 }
 
 .img__btn:hover {
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 219, 161, 0.6);
     cursor: pointer;
 }
 
@@ -169,6 +169,7 @@ html {
 
 .favorite {
     font-variation-settings: 'FILL' 1;
+    background-color: rgba(0, 219, 161, 0.971);
     color: #fff;
 }
 
@@ -201,19 +202,19 @@ html {
     color: white;
     border: 0;
     border-radius: 1rem;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(141, 141, 141, 0.5);
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
     display: grid;
     place-items: center;
 }
 
 .img__btn--delete:hover {
-    background-color: rgb(165, 42, 42);
+    background-color: rgba(165, 42, 42, 0.8);
     cursor: pointer;
 }
 
 .img__btn--delete:active {
-    color: red;
+    background-color: red;
 }
 
 .btn {
@@ -244,13 +245,11 @@ html {
     width: 70%;
     height: 4rem;
     margin-top: 1.5rem;
-    background: rgba(0, 219, 161, 0.971);
-    color: white;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
 }
 
-.btn--lit:hover {
-    color: white;
+.btn:active {
+    background-color: rgba(0, 219, 161, 0.971);
 }
 
 .input-file-container {
