@@ -82,8 +82,11 @@ html {
     overflow: auto;
 }
 
+.section__grid--favorites {
+    height: 32.5rem;
+}
+
 .section__grid.single-item {
-    height: 15rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -91,7 +94,7 @@ html {
 
 .section__caption {
     font-size: 1.5rem;
-    color:  black;
+    color:  rgba(0, 0, 0, 0.9);
     display: flex;
     flex-direction: column;
     align-items: center;
