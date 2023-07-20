@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doges aleatorios</title>
+    <title>Doge surprise</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐶</text></svg>">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/tablet.css" media="(min-width: 600px)">
@@ -15,7 +15,7 @@
 </head>
 <body>
     <header>
-        <h1 class="title">Random doge 🐶</h1>
+        <h1 class="title">Random doge</h1>
     </header>
 
     <main>
@@ -35,11 +35,11 @@
                 <img id="main-img" class="img skeleton" src="" alt=""> <!-- Omitimos src (se agregará con JS)-->
             </div>
     
-            <button id="btn-random" class="btn">New doge</button>
+            <button id="btn-random" class="btn">Show doge!</button>
         </section>
     
         <section class="section section--lg">
-            <h2 class="section__title">Favorites doges</h2>
+            <h2 class="section__title">Favorite doges</h2>
             <div id="favorites" class="section__grid section__grid--favorites">
                 <template id="favorite-template">
                     <article class="related-img-container">
@@ -58,7 +58,7 @@
         </section>
     
         <section id="uploading" class="section section--lg">
-            <h2 class="section__title">Upload a picture of your dog</h2>
+            <h2 class="section__title">Share your doge</h2>
     
             <form id="uploadingForm">
                 <div class="input-file-container">
@@ -74,13 +74,13 @@
                     </div>
                 </div>
                 
-                <button type="button" onclick="uploadPhoto()" class="btn btn--lit">Upload photo</button>
+                <button type="button" onclick="uploadPhoto()" class="btn btn--lit">Upload doge photo</button>
                 <!-- Se elige type="button" para que el form no se envie automaticamente y podamos controlarlo por js -->
             </form>
         </section>
     
         <section class="section section--lg">
-            <h2 class="section__title">Related doges</h2>
+            <h2 class="section__title">More doges for you</h2>
             <div id="relateds" class="section__grid">
                 <template id="related-template">
                     <article class="related-img-container">
