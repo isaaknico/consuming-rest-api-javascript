@@ -74,6 +74,7 @@ html {
 
 .section__grid {
     max-height: 32.5rem;
+    padding: .25rem 0;
     display: grid;
     justify-items: center;
     grid-template-columns: repeat(2, minmax(135px, 1fr));
