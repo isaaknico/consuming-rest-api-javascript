@@ -107,6 +107,7 @@ async function getFavorites() {
                 data.forEach(item => {
                     // Manipula el DOM dinamicamente
                     const div = favTemplate.content.cloneNode(true);
+                    const article = div.getElementById('favorite');
                     const button = div.getElementById('favorite-btn');
                     button.onclick = () => deleteFromFavorites(item.id, item.image_id); // Asigna id a botón eliminar
                     const img = div.getElementById('favorite-img');
@@ -115,6 +116,13 @@ async function getFavorites() {
                     img.onclick = () => { 
                         printMainImage(item.image_id, item.image.url);
                         window.scrollTo(0, 0);
+                    };
+                    article.onkeydown = (e) => {
+                        if (e.code === 'Enter' || e.code === 'Space') {
+                            e.preventDefault();
+                            printMainImage(item.image_id, item.image.url);
+                            window.scrollTo(0, 0);
+                        }
                     };
                     section.append(div);
                 })
@@ -140,12 +148,22 @@ async function getRelateds() {
 
         for (let i = 0; i < 4; i++) {
             const div = relatedTemplate.content.cloneNode(true);
+            const article = div.getElementById('related');
             const img = div.getElementById('related-img');
             img.src = dataRelated[i].url;
             img.alt = 'Related dog image';
             img.onclick = () => { 
                 printMainImage(dataRelated[i].id, dataRelated[i].url);
                 window.scrollTo(0, 0);
+            };
+            article.onkeydown = (e) => { 
+                if (e.code === 'Enter' || e.code === 'Space') {
+                    e.preventDefault();
+                    printMainImage(dataRelated[i].id, dataRelated[i].url);
+                    window.scrollTo(0, 0);
+                    const btnSave = document.getElementById('btnSaveToFav');
+                    btnSave.focus();
+                }
             };
             container.append(div);
         };

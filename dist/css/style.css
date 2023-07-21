@@ -298,6 +298,11 @@ html {
     background-color: rgb(28, 167, 120);
 }
 
+.input-file:focus + .input-file-trigger {
+    outline: -webkit-focus-ring-color auto 1px;
+    outline-offset: 2px;
+}
+
 .file-return {
     font-style: italic;
     font-size: 1.4rem;
