@@ -13,31 +13,14 @@ const BUTTON_MODES = Object.freeze({
 });
 let curRandomImgId;
 
-// Crea instancia de axios y Agrega headers por defecto
 const server = axios.create({
     baseURL: '/.netlify/functions',
-    //headers: { 'x-api-key': API_KEY } // API_KEY ahora se leerá desde el servidor, donde también se realizará el pedido a la API.
 });
 
-/* Usando fetch y .then
-function fetchData() {
-    fetch(URL)
-    .then(res => res.json()) // Convierte respuesta de promesa y api a algo que JS entienda
-    .then(data => {
-        const img = document.querySelector('img');
-        img.src = data.results[0].url;
-        
-        // En caso de ser un array accedemos directo al elem 0: data[0].propiedad
-    });
-} */
-
-// Usando Async Await
-// Main image
 async function getRandom() {  
     try {
         const response = await fetch(API_URL);
         const data = await response.json();
-        console.log('random data', data);
 
         if (response.status !== 200) {
             showMessage('error', `There was an error in Random: ${response.status} ${data.message}`);
@@ -52,28 +35,22 @@ async function getRandom() {
     }
 }
 
-// Favorites images
 async function getFavorites() {
     try {
         const response = await fetch('/.netlify/functions/get_favorites');
         const data = await response.json();
 
-        // Ordena por agregados recientemente
         data.sort((a, b) => {
             let dateA = new Date(a.created_at);
             let dateB = new Date(b.created_at);
             
             return dateB - dateA;
         });
-
-        console.log('favorites response', response);
-        console.log('favorites data', data);
         
         if (response.status !== 200) {
             showMessage('error', `There was an error in Favorites: ${response.status} ${data.message}`);
             setTimeout(hideMessage, 3000);
         } else {
-            // Limpia seccion
             const section = document.getElementById('favorites');
 
             if (data.length < 1) {
@@ -95,23 +72,14 @@ async function getFavorites() {
             } else {
                 section.classList.remove('single-item');
                 section.innerHTML = "";
-                // y vuelve a crear titulo
-                /*
-                const h2 = document.createElement('h2');
-                const h2Text = document.createTextNode('Favorites doges');
-                h2.appendChild(h2Text);
-                h2.classList.add('section__title');
-                section.appendChild(h2); */
 
-                // Recorre cada uno de los elems
                 data.forEach(item => {
-                    // Manipula el DOM dinamicamente
                     const div = favTemplate.content.cloneNode(true);
                     const article = div.getElementById('favorite');
                     const button = div.getElementById('favorite-btn');
-                    button.onclick = () => deleteFromFavorites(item.id, item.image_id); // Asigna id a botón eliminar
+                    button.onclick = () => deleteFromFavorites(item.id, item.image_id);
                     const img = div.getElementById('favorite-img');
-                    img.src = item.image.url; // Asigna image al attr src
+                    img.src = item.image.url;
                     img.alt = "Favorite dog image"
                     img.onclick = () => { 
                         printMainImage(item.image_id, item.image.url);
@@ -134,7 +102,6 @@ async function getFavorites() {
     }
 }
 
-// Related images
 async function getRelateds() {
     const container = document.getElementById('relateds');
     const relatedTemplate = document.getElementById('related-template');
@@ -172,34 +139,15 @@ async function getRelateds() {
     }
 }
 
-// Save image to Favorites
 async function saveToFavorites(imgId) {
-    /* Usando fetch
-    const response = await fetch(API_URL_FAVS, { // Se envia un obj como arg
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json', // Indica que estamos trabajando en json
-            'x-api-key': API_KEY,
-        },
-        body: JSON.stringify({ // Contienen la información como tal. // Se convierte a string para que el lenguaje en que está escrito el backend(api) lo pueda leer 
-            image_id: id,
-        }),
-    });
-    const data = await response.json();  */
-
-    /* Usando Axios */
     const { data, status } = await server.post('/save_to_favorites', {
         image_id: imgId,
     });
-    // { data, status }: Propiedades del típico obj response obtenido al realizar petición, evitan usar: data=await response.json(); y response.status.
-    // Llamamos a instancia que contiene url, indicamos metodo, pasamos endpoint y data.
-    // La api-key se agregó con los headers por default.
 
     if (status !== 200) {
         showMessage('error', `There was an error in Save to Favorites: ${status} ${data.message}`);
         setTimeout(hideMessage, 3000);
     } else {
-        console.log('Guardado en favoritos');
         if (imgId == curRandomImgId) {
             switchButtonTo(BUTTON_MODES.DELETE, imgId, data.id);
         }
@@ -208,7 +156,6 @@ async function saveToFavorites(imgId) {
 
 }
 
-// Delete image from Favorites
 async function deleteFromFavorites(id, imgId) {
     const response = await fetch('/.netlify/functions/delete_from_favorites', {
         method: 'POST',
@@ -222,7 +169,6 @@ async function deleteFromFavorites(id, imgId) {
         showMessage('error', `There was an error in Delete from Favorites: ${response.status} ${data.message}`);
         setTimeout(hideMessage, 3000);
     } else {
-        console.log('Eliminado de favoritos');
         if (imgId == curRandomImgId) {
             switchButtonTo(BUTTON_MODES.SAVE, imgId);
         }
@@ -239,24 +185,19 @@ async function uploadPhoto() {
     showLoader();
 
     const form = document.getElementById('uploadingForm');
-    const formData = new FormData(form); // Crea instancia FormData y le pasa un form con todos los valores de los input que contenga
-
-    console.log(formData.get('file')); // Obtenemos la llave file, que es el valor del input con name='file' del form.
+    const formData = new FormData(form);
 
     const response = await fetch('/.netlify/functions/upload_photo', {
         method: 'POST',
-        body: formData, // FormData no requiere parsear el body.
+        body: formData, // FormData does not require parsing the body.
     });
     const data = await response.json();
 
-    if (response.status !== 201) { // Se compara con status created 201
+    if (response.status !== 201) {
         showMessage('error', `There was an error in Upload Photo. ${data.message}`);
         setTimeout(hideMessage, 3000);
     } else {
-        console.log('Foto subida correctamente');
-        console.log('data:', data);
-        console.log('data.url:',data.url);
-        saveToFavorites(data.id); // Guarda imagen subida en favoritos
+        saveToFavorites(data.id);
         showMessage('success', 'Photo uploaded successfully. Thanks for sharing.');
         setTimeout(hideMessage, 3000);
     }
@@ -268,25 +209,24 @@ async function uploadPhoto() {
 async function previewImage() {
     const input = document.getElementById('input-file');
     const fileReturn = document.getElementById('file-return');
-    const files = input.files; // La propiedad files del elemento input nos devuelve un array con una lista de objetos representando los archivos cargados en la etiqueta input. Guardados en el navegador, obtenidos del SO.
-    console.log('file:', files)
+    const files = input.files; // The files property of the input element returns an array with a list of objects representing the files loaded in the input tag. Saved in the browser, obtained from the OS.
 
     if (files.length > 0) {
-        const fileReader = new FileReader(); // Crea instancia de FileReader
+        const fileReader = new FileReader();
 
-        fileReader.readAsDataURL(files[0]); // Lee el primer archivo. Y convierte archivo de imagen en string base64.
+        fileReader.readAsDataURL(files[0]); // Reads the first file and converts it from an image file to a Data URL (base64 string).
 
         fileReader.onload = function() {
             const previewContainer = document.getElementById('preview-container');
             previewContainer.classList.add('related-img-container');
             previewContainer.classList.add('preview-container');
             const previewImage = document.getElementById('preview')
-            previewImage.src = fileReader.result; // Asigna imagen a etiqueta
+            previewImage.src = fileReader.result; // Assign image to tag.
             previewImage.classList.add('img');
             const previewDeleteBtn = document.getElementById('preview-delete-btn');
             previewDeleteBtn.classList.remove('inactive');
 
-            fileReturn.innerHTML = files[0].name; // Retorna el nombre del archivo
+            fileReturn.innerHTML = files[0].name; // Assign file name to tag.
         }
     }
 }
@@ -310,8 +250,7 @@ async function printMainImage(imgId, url) {
     if (isInFav) {
         switchButtonTo(BUTTON_MODES.DELETE, imgId, isInFav.id);
     } else {
-        switchButtonTo(BUTTON_MODES.SAVE, imgId); // Se declara funcion anonima que se llama solo al dar click y por dentro ejecuta otra funcion.
-        // button.onclick = saveToFavorites(data[0].id); // ERROR. Esto llamará a la funct automaticamente, o al recargar la pag.
+        switchButtonTo(BUTTON_MODES.SAVE, imgId);
     }
 }
 
